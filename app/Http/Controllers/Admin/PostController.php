@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CategoryController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories=Category::orderby('id','DESC')->get();
-        return view ('admin.category',compact('categories'));
+        $categories=Category::all();
+
+        $objpost= new Post();
+        $posts=Post::all();
+        return view ('admin.post',compact('categories','posts'));
+
     }
 
     /**
@@ -37,18 +42,34 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=> 'required|unique:categories,name|max:255',
-            'description'=>'required',
-        ]);
-        $data=[
-            'name'=> $request->name,
-            'description'=>$request->description,
-        ];
-        Category::create($data);
-        $notify=['message'=>'Category Created Successfully.','alert-type'=>'success'
-        ];
-        return redirect()->back()->with($notify);
+       $request->validate([
+        'title'=>'required',
+        'category_id'=> 'required',
+        'description'=>'required',
+       ]);
+
+        $data = [
+        'title'=>$request->title,
+        'category_id'=> $request->category_id,
+        'description'=>$request->description,
+        'status'=>$request->status,
+       ];
+
+       if ($request->hasFile('thumbnail')) {
+        $file = $request->file('thumbnail');
+        $extension = $file->getClientOriginalExtension();
+        $filename = time() . '.' . $extension;
+        $file->move(public_path('/images/post_thumbnails'), $filename);
+        $data['thumbnail'] = $filename;
+
+        // // Resize image
+        // $thumbnail = Image::make($file);
+        // $thumbnail->resize(600, 360)->save(public_path('post_thumbnails/' , $filename));
+
+    }
+        Post::create($data);
+        // $notify = ['message' => 'Post created successfully!', 'alert-type' => 'success'];
+        return redirect()->back()->with('success','Post Created Successfully.');
     }
 
     /**
@@ -82,19 +103,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $category=Category::find($id);
-         $request->validate([
-            'name'=> 'required|unique:categories,name|max:255',
-            'description'=>'required',
-        ]);
-        $data=[
-            'name'=> $request->name,
-            'description'=>$request->description,
-        ];
-        $category->update($data);
-        $notify=['message'=>'Category Updated Successfully.','alert-type'=>'success'
-    ];
-        return redirect()->back()->with($notify);
+        //
     }
 
     /**
@@ -105,9 +114,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category=Category::find($id);
-        $category->delete();
-        return redirect()->back();
-
+        //
     }
 }

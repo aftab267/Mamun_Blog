@@ -192,7 +192,7 @@
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
 
-                    <button class="btn btn-link dropdown-item" type="submit"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400">
+                    <button class="btn btn-link dropdown-item logout" type="submit"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400">
 
                     </i>Logout</button>
                 </form>
