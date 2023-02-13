@@ -21,7 +21,7 @@
  <!-- Page level custom scripts -->
  <script src="{{ asset('assets/js/demo/datatables-demo.js')}}"></script>
 
- //Toastr
+ 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  <script>
     @if (Session::has('message'))
@@ -43,7 +43,7 @@
     @endif
 </script>
 
-//Sweetaleart2
+
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Sweetalert Script -->
 <script>

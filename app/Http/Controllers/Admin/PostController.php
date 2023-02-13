@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use File;
 
 class PostController extends Controller
 {
@@ -19,7 +20,11 @@ class PostController extends Controller
         $categories=Category::all();
 
         $objpost= new Post();
-        $posts=Post::all();
+        $posts=$objpost->join('categories','categories.id','=','posts.category_id')
+        ->select('posts.*','categories.name as category_name')
+        ->get();
+
+
         return view ('admin.post',compact('categories','posts'));
 
     }
@@ -80,7 +85,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+
+
+
+
     }
 
     /**
@@ -103,7 +111,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title'=>'required',
+            'category_id'=> 'required',
+            'description'=>'required',
+           ]);
+           $data = [
+            'title'=>$request->title,
+            'category_id'=> $request->category_id,
+            'description'=>$request->description,
+            'status'=>$request->status,
+           ];
+           if ($request->hasFile('thumbnail')) {
+
+            if($request->old_thumb){
+                File::delete(public_path('images/post_thumbnails/'. $request->old_thumb));
+
+            }
+            $file = $request->file('thumbnail');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            $file->move(public_path('/images/post_thumbnails'), $filename);
+            $data['thumbnail'] = $filename;
+           }
+           Post::where('id',$id)->update($data);
+        // $notify = ['message' => 'Post created successfully!', 'alert-type' => 'success'];
+        return redirect()->back()->with('success','Post Updated Successfully.');
     }
 
     /**
@@ -114,6 +147,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post=Post::find($id);
+        if($post->thumbnail){
+            File::delete(public_path('images/post_thumbnails/'. $post->thumbnail));
+        }
+        $post->delete();
+        return redirect()->back()->with('success','Post Deleted Successfully');
+
     }
 }
