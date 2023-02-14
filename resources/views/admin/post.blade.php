@@ -44,7 +44,6 @@ Post
                     <span class="badge badge-danger">Private</span>
                     @endif
                 </td>
-
                 <td>
                     <div class="d-flex">
                         <button class="btn btn-primary btn-sm mr-1" data-toggle="modal" data-target="{{ '#edit'.$post->id .'postModal' }}" ><i class="fa fa-edit"></i></button>
@@ -53,7 +52,6 @@ Post
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-danger btn-sm delete"><i class="fa fa-trash"></i></button>
                     </form>
-
                     </div>
                 </td>
               </tr>
