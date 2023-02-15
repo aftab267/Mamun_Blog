@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('mainsection')
-@include('layouts.includes.banner')
-@include('layouts.includes.trending')
+
+
+
 <section class="section-sm">
+    <div class="py-4"></div>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8  mb-5 mb-lg-0">
-                <h2 class="h5 section-title">Recent Post</h2>
-
-
+            <h1 class="h2 mb-4">Showing items from <mark>{{ $posts->first()->category_name }}</mark></h1>
               @foreach( $posts as $post)
                     <article class="card mb-4">
                         <div class="post-slider">
-                            <img src="{{'images/post_thumbnails/'.$post->thumbnail}}" class="card-img-top" alt="post-thumb">
+                            <img src="{{asset('images/post_thumbnails/'.$post->thumbnail)}}" class="card-img-top" alt="post-thumb">
                             </div>
                         <div class="card-body">
                             <h3 class="mb-3"><a class="post-title" href="{{ route('single_post_view',$post->id) }}">{{ $post->title }}</a></h3>

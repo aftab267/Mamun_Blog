@@ -31,7 +31,7 @@
             </ul>
         </div>
         <div class="col-md-2 text-center mb-4">
-            <a href="index.html"><img class="img-fluid" width="100px" src="{{asset('usr_assets/images/logo.png')}}" alt="Reader | Hugo Personal Blog Template"></a>
+            <a href="index.html"><img class="img-fluid" width="100px" src="{{asset('usr_assets/images/logo_1.png')}}" alt="Reader | Hugo Personal Blog Template"></a>
         </div>
         <div class="col-md-5 text-md-right text-center mb-4">
             <ul class="list-inline footer-list mb-0">
